@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Fibonacci</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body style="background: #eee">
+		<div style="position:relative; margin: 5% auto; max-width:600px">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title text-center">
+						N-nésimo número de la secuencia Fibonacci
+					</h5>
+
+					<div class="card-body">
+						<form action="">
+							<div class="form-group">
+								<label for="n">Ingrese un número</label>
+								<input
+									type="number"
+									id="n"
+									name="n"
+									value="{{.Number}}"
+									placeholder="Ej : 5"
+									class="form-control"
+								/>
+							</div>
+							<button
+								type="submit"
+								class="btn btn-primary btn-block mb-3"
+							>
+								Obtener!
+							</button>
+
+							{{ if .Result }}
+							<div class="alert alert-success" role="alert">
+								El resultado es : {{.Result}}
+							</div>
+							{{ end }}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
