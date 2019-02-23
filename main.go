@@ -50,7 +50,10 @@ func GetNumber(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Find fibonacci number by position
-		found := fibo(p)
+		log.Printf("Checking for <%v> position...", p)
+		found := fibo(p - 1)
+
+		log.Printf("Results : %v", found)
 		d.Result = fmt.Sprintf("%v", found)
 	}
 
@@ -58,6 +61,7 @@ func GetNumber(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, d)
 }
 
+// remember : to include first place "0", call function with (n-1)
 func fibo(n int) int {
 	if n <= 1 {
 		return n
