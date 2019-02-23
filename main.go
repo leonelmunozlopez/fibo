@@ -5,13 +5,18 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os/exec"
+	"runtime"
 	"strconv"
 )
 
 func main() {
 	log.Printf("HTTP Server on <localhost:8080>")
 	http.HandleFunc("/", GetNumber)
-	http.ListenAndServe(":8080", nil)
+
+	// Open browser!
+	go open("http://localhost:8080/")
+	panic(http.ListenAndServe(":8080", nil))
 }
 
 // Data for templating
@@ -67,4 +72,25 @@ func fibo(n int) int {
 		return n
 	}
 	return fibo(n-1) + fibo(n-2)
+}
+
+// open, auto-launch Browser
+func open(url string) error {
+	var cmd string
+	var args []string
+
+	switch runtime.GOOS {
+	case "windows":
+		cmd = "cmd"
+		args = []string{"/c", "start"}
+
+	case "darwin":
+		cmd = "open"
+
+	default: // "linux", "freebsd", "openbsd", "netbsd"
+		cmd = "xdg-open"
+	}
+
+	args = append(args, url)
+	return exec.Command(cmd, args...).Start()
 }
