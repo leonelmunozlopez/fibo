@@ -1,4 +1,4 @@
-#Sucesión Fibonacci
+# Sucesión Fibonacci
 
 En matemáticas, la sucesión o serie de Fibonacci es la siguiente sucesión infinita de números naturales:
 
