@@ -24,6 +24,16 @@ type Data struct {
 func GetNumber(w http.ResponseWriter, r *http.Request) {
 	var d Data
 
+	t := template.New("index.html")
+	t, err := t.ParseFiles("index.html")
+	if err != nil {
+		log.Printf("Error parse <index.html> : %v", err)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error rendering!\n"))
+		return
+	}
+
 	n := r.URL.Query().Get("n")
 	if n != "" {
 		d.Number = n
@@ -32,20 +42,19 @@ func GetNumber(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Printf("Error converting string <%v> to int : %v", n, err)
 			d.Result = "Ingrese un número correcto"
-		} else {
-			// Find fibonacci number by position
-			found := fibo(p)
-			d.Result = fmt.Sprintf("%v", found)
+
+			w.WriteHeader(http.StatusBadRequest)
+			t.Execute(w, d)
+			return
+
 		}
+
+		// Find fibonacci number by position
+		found := fibo(p)
+		d.Result = fmt.Sprintf("%v", found)
 	}
 
-	t := template.New("index.html")
-	t, err := t.ParseFiles("index.html")
-	if err != nil {
-		log.Printf("Error parse <index.html> : %v", err)
-		w.Write([]byte("Error rendering!\n"))
-		return
-	}
+	w.WriteHeader(http.StatusOK)
 	t.Execute(w, d)
 }
 
